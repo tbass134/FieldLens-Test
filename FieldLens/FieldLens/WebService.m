@@ -3,7 +3,7 @@
 //  FieldLens
 //
 //  Created by Antonio Hung on 5/22/13.
-//  Copyright (c) 2013 Dark Bear Interactive. All rights reserved.
+//  Copyright (c) 2014 Tony Hung. All rights reserved.
 //
 
 #import "WebService.h"
@@ -46,40 +46,14 @@ static WebService* sharedWebService = nil;
         if(block)
             block([self sortedArray:allMovies]);
 
-//        [self getSavedMoviesWithBlock:^(NSArray *movies) {
-//            
-//            if(block)
-//                block(movies);
-//        }];
+
     }];
 }
-//-(void)getSavedMoviesWithBlock:(void (^)(NSArray *movies))block;
-//{
-//    NSArray *allMovies = [[CoreDataService sharedCoreDataService]getAllMovies];
-//    if(block)
-//        block([self sortedArray:allMovies]);
-//}
 
 -(void)getMovieDetailForMovie:(Movie *)movie withBlock:(void (^)(Movie *movie))block;
 {
-    //__block Movie *foundMovie = nil;
-    
     [[WebServiceAPIClient sharedClient]GET:[NSString stringWithFormat:@"movie/%@i?api_key=%@",movie.movieID,TMDB_API_KEY] parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
-//        __block NSArray *savedMovies;
-//        [self getSavedMoviesWithBlock:^(NSArray *movies) {
-//            savedMovies = movies;
-//        }];
-//
-//        for(Movie *theMovie in savedMovies)
-//        {
-//            if([theMovie.movieID isEqualToString:movie.movieID])
-//            {
-//                foundMovie = theMovie;
-//                break;
-//                
-//            }
-//        }
         Movie *foundMovie = [[CoreDataService sharedCoreDataService]getMovieFromMovieID:movie.movieID];
         if(foundMovie)
         {
@@ -89,20 +63,6 @@ static WebService* sharedWebService = nil;
                 
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
-//        __block NSArray *savedMovies;
-//        [self getSavedMoviesWithBlock:^(NSArray *movies) {
-//            savedMovies = movies;
-//        }];
-//
-//        //return the movie from Core Data
-//        for(Movie *savedMovie in savedMovies)
-//        {
-//            if([savedMovie.movieID isEqualToString:movie.movieID])
-//            {
-//                foundMovie = savedMovie;
-//                break;
-//            }
-//        }
         Movie *foundMovie = [[CoreDataService sharedCoreDataService]getMovieFromMovieID:movie.movieID];
         if(foundMovie && block)
         {

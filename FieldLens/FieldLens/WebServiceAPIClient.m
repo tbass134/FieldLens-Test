@@ -3,7 +3,7 @@
 //  FieldLens
 //
 //  Created by Antonio Hung on 12/18/12.
-//  Copyright (c) 2012 Dark Bear Interactive. All rights reserved.
+//  Copyright (c) 2014 Tony Hung. All rights reserved.
 //
 
 #import "WebServiceAPIClient.h"

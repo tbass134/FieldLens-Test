@@ -30,7 +30,6 @@ static CoreDataService* sharedCoreDataService = nil;
     
     NSError * error = nil;
     NSArray * movies = [appDelegate.managedObjectContext executeFetchRequest:allMovies error:&error];
-    //error handling goes here
     for (NSManagedObject * movie in movies) {
         [appDelegate.managedObjectContext deleteObject:movie];
     }

@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		455353D8193B9DE300397D5E /* WebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 455353D5193B9DE300397D5E /* WebService.m */; };
 		455353D9193B9DE300397D5E /* WebServiceAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 455353D7193B9DE300397D5E /* WebServiceAPIClient.m */; };
-		455353E1193BA2E800397D5E /* Movie.m in Sources */ = {isa = PBXBuildFile; fileRef = 455353E0193BA2E800397D5E /* Movie.m */; };
-		455353E5193BA32B00397D5E /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 455353E4193BA32B00397D5E /* CoreDataManager.m */; };
 		455353E8193BB38900397D5E /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 455353E6193BB38900397D5E /* placeholder.png */; };
 		455353E9193BB38900397D5E /* placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 455353E7193BB38900397D5E /* placeholder@2x.png */; };
 		45672184193B9B5600F53C9C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45672183193B9B5600F53C9C /* Foundation.framework */; };
@@ -32,6 +30,8 @@
 		456721B1193B9B5700F53C9C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45672189193B9B5600F53C9C /* CoreData.framework */; };
 		456721B9193B9B5700F53C9C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 456721B7193B9B5700F53C9C /* InfoPlist.strings */; };
 		456721BB193B9B5700F53C9C /* FieldLensTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 456721BA193B9B5700F53C9C /* FieldLensTests.m */; };
+		9AEDB8A4193E7F1B0079A6FD /* Movie.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEDB8A3193E7F1B0079A6FD /* Movie.m */; };
+		9AEDB8EF193E8AAB0079A6FD /* CoreDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEDB8EE193E8AAB0079A6FD /* CoreDataService.m */; };
 		ADBF76A7FA9F40E6B95D3E76 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0017E48FC31E40F5A569E765 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -51,10 +51,6 @@
 		455353D5193B9DE300397D5E /* WebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebService.m; sourceTree = "<group>"; };
 		455353D6193B9DE300397D5E /* WebServiceAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebServiceAPIClient.h; sourceTree = "<group>"; };
 		455353D7193B9DE300397D5E /* WebServiceAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebServiceAPIClient.m; sourceTree = "<group>"; };
-		455353DF193BA2E800397D5E /* Movie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Movie.h; sourceTree = "<group>"; };
-		455353E0193BA2E800397D5E /* Movie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Movie.m; sourceTree = "<group>"; };
-		455353E3193BA32B00397D5E /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
-		455353E4193BA32B00397D5E /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
 		455353E6193BB38900397D5E /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		455353E7193BB38900397D5E /* placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder@2x.png"; sourceTree = "<group>"; };
 		45672180193B9B5600F53C9C /* FieldLens.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FieldLens.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +78,10 @@
 		456721B8193B9B5700F53C9C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		456721BA193B9B5700F53C9C /* FieldLensTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FieldLensTests.m; sourceTree = "<group>"; };
 		9151A47327984FC2A6BDFEC0 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		9AEDB8A2193E7F1B0079A6FD /* Movie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Movie.h; sourceTree = "<group>"; };
+		9AEDB8A3193E7F1B0079A6FD /* Movie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Movie.m; sourceTree = "<group>"; };
+		9AEDB8ED193E8AAB0079A6FD /* CoreDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataService.h; path = CoreData/CoreDataService.h; sourceTree = "<group>"; };
+		9AEDB8EE193E8AAB0079A6FD /* CoreDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataService.m; path = CoreData/CoreDataService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,17 +118,8 @@
 				455353D5193B9DE300397D5E /* WebService.m */,
 				455353D6193B9DE300397D5E /* WebServiceAPIClient.h */,
 				455353D7193B9DE300397D5E /* WebServiceAPIClient.m */,
-				455353E3193BA32B00397D5E /* CoreDataManager.h */,
-				455353E4193BA32B00397D5E /* CoreDataManager.m */,
 			);
 			name = WebServices;
-			sourceTree = "<group>";
-		};
-		455353DE193BA2C700397D5E /* Core Data */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Core Data";
 			sourceTree = "<group>";
 		};
 		45672177193B9B5600F53C9C = {
@@ -167,7 +158,7 @@
 		4567218B193B9B5600F53C9C /* FieldLens */ = {
 			isa = PBXGroup;
 			children = (
-				455353DE193BA2C700397D5E /* Core Data */,
+				9AEDB8EC193E8A960079A6FD /* CoreData */,
 				455353D3193B9DC300397D5E /* WebServices */,
 				45672194193B9B5600F53C9C /* AppDelegate.h */,
 				45672195193B9B5600F53C9C /* AppDelegate.m */,
@@ -179,8 +170,6 @@
 				456721A4193B9B5600F53C9C /* DetailViewController.m */,
 				456721A6193B9B5600F53C9C /* Images.xcassets */,
 				4567219D193B9B5600F53C9C /* FieldLens.xcdatamodeld */,
-				455353DF193BA2E800397D5E /* Movie.h */,
-				455353E0193BA2E800397D5E /* Movie.m */,
 				4567218C193B9B5600F53C9C /* Supporting Files */,
 			);
 			path = FieldLens;
@@ -215,6 +204,17 @@
 				456721B7193B9B5700F53C9C /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9AEDB8EC193E8A960079A6FD /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				9AEDB8ED193E8AAB0079A6FD /* CoreDataService.h */,
+				9AEDB8EE193E8AAB0079A6FD /* CoreDataService.m */,
+				9AEDB8A2193E7F1B0079A6FD /* Movie.h */,
+				9AEDB8A3193E7F1B0079A6FD /* Movie.m */,
+			);
+			name = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -354,9 +354,9 @@
 			files = (
 				455353D8193B9DE300397D5E /* WebService.m in Sources */,
 				456721A5193B9B5600F53C9C /* DetailViewController.m in Sources */,
-				455353E1193BA2E800397D5E /* Movie.m in Sources */,
-				455353E5193BA32B00397D5E /* CoreDataManager.m in Sources */,
+				9AEDB8A4193E7F1B0079A6FD /* Movie.m in Sources */,
 				456721A2193B9B5600F53C9C /* MasterViewController.m in Sources */,
+				9AEDB8EF193E8AAB0079A6FD /* CoreDataService.m in Sources */,
 				45672196193B9B5600F53C9C /* AppDelegate.m in Sources */,
 				4567219F193B9B5600F53C9C /* FieldLens.xcdatamodeld in Sources */,
 				45672192193B9B5600F53C9C /* main.m in Sources */,

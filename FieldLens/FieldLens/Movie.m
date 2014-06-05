@@ -2,7 +2,7 @@
 //  Movie.m
 //  FieldLens
 //
-//  Created by Tony Hung on 6/1/14.
+//  Created by Antonio Hung on 6/3/14.
 //  Copyright (c) 2014 Tony Hung. All rights reserved.
 //
 
@@ -11,8 +11,10 @@
 
 @implementation Movie
 
-@dynamic title;
 @dynamic desc;
+@dynamic movieID;
 @dynamic posterImage;
 @dynamic releaseDate;
+@dynamic title;
+
 @end

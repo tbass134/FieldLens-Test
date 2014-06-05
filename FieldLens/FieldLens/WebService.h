@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Movie.h"
 
 @interface WebService : NSObject
 + (WebService *)sharedWebService;
 -(id)init;
--(void)popUpWithMessage:(NSString*)msg andTitle:(NSString *)title;
-
 -(void)getUpcomingMoviesWithBlock:(void (^)(NSArray *movies))block;
+
+-(void)getMovieDetailForMovie:(Movie *)movie withBlock:(void (^)(Movie *movie))block;
+
 @end

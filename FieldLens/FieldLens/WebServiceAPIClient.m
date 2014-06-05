@@ -17,8 +17,6 @@
         
         NSString *url = @"https://api.themoviedb.org/3";
         _sharedClient = [[self alloc] initWithBaseURL:[NSURL URLWithString:url]];
-        //[_sharedClient setSecurityPolicy:[AFSecurityPolicy policyWithPinningMode:AFSSLPinningModePublicKey]];
-
     });
     
     return _sharedClient;

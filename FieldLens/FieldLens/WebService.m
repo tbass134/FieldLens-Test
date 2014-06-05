@@ -11,8 +11,7 @@
 #import "WebServiceAPIClient.h"
 #import "AppDelegate.h"
 #import "Movie.h"
-
-#define IN_TESTING 0
+#import "CoreDataService.h"
 static NSString *TMDB_API_KEY = @"45b53fed0a34751a8fda0043801d6e08";
 @implementation WebService
 
@@ -24,100 +23,103 @@ static WebService* sharedWebService = nil;
     
     return self;
 }
--(void)popUpWithMessage:(NSString*)msg andTitle:(NSString *)title {
-    
-    if(msg == NULL)
-        msg = @"Error!";
-    
-    
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:msg
-                                                        message:title
-                                                       delegate:nil
-                                              cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                              otherButtonTitles:nil];
-    [alertView show];
-}
 -(void)getUpcomingMoviesWithBlock:(void (^)(NSArray *movies))block;
 {
     NSMutableArray *moviesArray = [[NSMutableArray alloc]init];
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-
-    __block NSArray *savedMovies;
-    [self getSavedMoviesWithBlock:^(NSArray *movies) {
-        savedMovies = movies;
-    }];
                             
     [[WebServiceAPIClient sharedClient]GET:[NSString stringWithFormat:@"movie/upcoming?api_key=%@",TMDB_API_KEY] parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
-        for(NSDictionary *moveDict in responseObject[@"results"])
+        //clear the items in core data since we are online and are able to load the full list
+        [[CoreDataService sharedCoreDataService] removeAllMovies];
+        for(NSDictionary *movieDict in responseObject[@"results"])
         {
-            BOOL insertItem = YES;
-            for(Movie *movie in savedMovies)
-            {
-                if([movie.title isEqualToString:moveDict[@"title"]])
-                {
-                    insertItem = NO;
-                    [moviesArray addObject:movie];
-                    break;
-                    
-                }
-            }
-            if(insertItem)
-            {
-                Movie *movie = [[Movie alloc]initWithEntity:[NSEntityDescription entityForName:@"Movie" inManagedObjectContext:appDelegate.managedObjectContext] insertIntoManagedObjectContext:appDelegate.managedObjectContext];
-                movie.title = moveDict[@"title"];
-                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-                [dateFormat setDateFormat:@"YYY-MM-DD"];
-                
-                NSDate *releaseDate = [dateFormat dateFromString:moveDict[@"release_date"]];
-                movie.releaseDate = releaseDate;
-                
-                if(moveDict[@"poster_path"] && moveDict[@"poster_path"] != [NSNull null])
-                {
-                   NSString *imageURL = [NSString stringWithFormat:@"https://image.tmdb.org/t/p/original%@",moveDict[@"poster_path"]];
-                    movie.posterImage =imageURL;
-                }
-                NSError *saveError = nil;
-                [appDelegate.managedObjectContext save:&saveError];
-                if(!saveError)
-                    [moviesArray addObject:movie];
-            }
+            Movie *movie = [[CoreDataService sharedCoreDataService]insertMovieFromDictionary:movieDict];
+            if(movie)
+                [moviesArray addObject:movie];
         }
-        //NSLog(@"responseObject %@",responseObject);
         if(block)
-            block(moviesArray);
+            block([self sortedArray:moviesArray]);
     
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
-        [self getSavedMoviesWithBlock:^(NSArray *movies) {
-            block(movies);
-        }];
-        
+        NSArray *allMovies = [[CoreDataService sharedCoreDataService]getAllMovies];
+        if(block)
+            block([self sortedArray:allMovies]);
+
+//        [self getSavedMoviesWithBlock:^(NSArray *movies) {
+//            
+//            if(block)
+//                block(movies);
+//        }];
     }];
 }
--(void)getSavedMoviesWithBlock:(void (^)(NSArray *movies))block;
+//-(void)getSavedMoviesWithBlock:(void (^)(NSArray *movies))block;
+//{
+//    NSArray *allMovies = [[CoreDataService sharedCoreDataService]getAllMovies];
+//    if(block)
+//        block([self sortedArray:allMovies]);
+//}
+
+-(void)getMovieDetailForMovie:(Movie *)movie withBlock:(void (^)(Movie *movie))block;
 {
-    //NSLog(@"erorr %@",error);
-    NSError *err = nil;
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-
-    NSEntityDescription *entityDescription = [NSEntityDescription
-                                              entityForName:@"Movie" inManagedObjectContext:appDelegate.managedObjectContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:entityDescription];
+    //__block Movie *foundMovie = nil;
     
-    
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
-                                        initWithKey:@"title" ascending:YES];
-    [request setSortDescriptors:@[sortDescriptor]];
-    
-    NSArray *array = [appDelegate.managedObjectContext executeFetchRequest:request error:&err];
-    if(block)
-        block(array);
-    
-
+    [[WebServiceAPIClient sharedClient]GET:[NSString stringWithFormat:@"movie/%@i?api_key=%@",movie.movieID,TMDB_API_KEY] parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+//        __block NSArray *savedMovies;
+//        [self getSavedMoviesWithBlock:^(NSArray *movies) {
+//            savedMovies = movies;
+//        }];
+//
+//        for(Movie *theMovie in savedMovies)
+//        {
+//            if([theMovie.movieID isEqualToString:movie.movieID])
+//            {
+//                foundMovie = theMovie;
+//                break;
+//                
+//            }
+//        }
+        Movie *foundMovie = [[CoreDataService sharedCoreDataService]getMovieFromMovieID:movie.movieID];
+        if(foundMovie)
+        {
+           if([[CoreDataService sharedCoreDataService]updateMovie:foundMovie fromDictionary:responseObject])
+                block(foundMovie);
+        }
+                
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+//        __block NSArray *savedMovies;
+//        [self getSavedMoviesWithBlock:^(NSArray *movies) {
+//            savedMovies = movies;
+//        }];
+//
+//        //return the movie from Core Data
+//        for(Movie *savedMovie in savedMovies)
+//        {
+//            if([savedMovie.movieID isEqualToString:movie.movieID])
+//            {
+//                foundMovie = savedMovie;
+//                break;
+//            }
+//        }
+        Movie *foundMovie = [[CoreDataService sharedCoreDataService]getMovieFromMovieID:movie.movieID];
+        if(foundMovie && block)
+        {
+            block(foundMovie);
+        }
+    }];
 }
-+ (id)sharedWebService {
+-(NSArray *)sortedArray:(NSArray *)array
+{
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"releaseDate"
+                                                 ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    return [array sortedArrayUsingDescriptors:sortDescriptors];
+}
+
++ (id) sharedWebService {
     @synchronized(self) {
         if (sharedWebService == nil)
             sharedWebService = [[self alloc] init];

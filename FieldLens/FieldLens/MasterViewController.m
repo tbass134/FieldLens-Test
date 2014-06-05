@@ -13,20 +13,43 @@
 
 
 @interface MasterViewController ()
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
 
 @implementation MasterViewController
 
+- (void)awakeFromNib
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        self.clearsSelectionOnViewWillAppear = NO;
+        self.preferredContentSize = CGSizeMake(320.0, 600.0);
+    }
+    [super awakeFromNib];
+}
+
 - (void)viewDidLoad
 {
-    self.images = [[NSDictionary alloc]init];
+    [super viewDidLoad];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+    self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     [[WebService sharedWebService]getUpcomingMoviesWithBlock:^(NSArray *movies) {
 
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+        if(movies.count ==0)
+        {
+            [[[UIAlertView alloc]initWithTitle:@"Error" message:@"Could Not Load Data" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil]show];
+            return;
+        }
         self.movies = movies;
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            Movie *movie = self.movies[0];
+            [self.detailViewController setMovieItem:movie];
+        }
         [self.tableView reloadData];
     }];
-    [super viewDidLoad];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,6 +73,7 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     Movie *movie = self.movies[indexPath.row];
+    //NSLog(@"title - %@ releaseDate - %@",movie.title,movie.releaseDate);
     cell.textLabel.text = movie.title;
     
     UIImage *placeholderImage = [UIImage imageNamed:@"placeholder"];
@@ -80,7 +104,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self performSegueWithIdentifier:@"showDetail" sender:self];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        Movie *movie = self.movies[indexPath.row];
+        [self.detailViewController setMovieItem:movie];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -88,7 +115,7 @@
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         Movie *movie = self.movies[indexPath.row];
-        [[segue destinationViewController] setMovie:movie];
+        [[segue destinationViewController]setMovie:movie];
     }
 }
 @end

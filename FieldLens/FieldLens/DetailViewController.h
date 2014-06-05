@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "Movie.h"
+#import "MBProgressHUD.h"
 
-@interface DetailViewController : UIViewController
-
+@interface DetailViewController : UIViewController<UISplitViewControllerDelegate>
+@property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (strong, nonatomic) Movie *movie;
-@property (weak, nonatomic) IBOutlet UILabel *movieTitleText;
+- (void)setMovieItem:(id)newMovieItem;
 @property (weak, nonatomic) IBOutlet UIImageView *moviePosterImage;
+@property (weak, nonatomic) IBOutlet UILabel *movieDescriptionText;
 
 @end
